@@ -1,6 +1,7 @@
 App = {
     load: async () => {
         await App.loadWeb3()
+        await App.loadAccount()
     },
 
     // https://medium.com/metamask/https-medium-com-metamask-breaking-change-injecting-web3-7722797916a8
@@ -16,8 +17,8 @@ App = {
           window.web3 = new Web3(ethereum)
           try {
             // Request account access if needed
-            await ethereum.enable()
-            // Acccounts now exposed
+            await eth_requestAccounts
+            // Accounts now exposed
             web3.eth.sendTransaction({/* ... */})
           } catch (error) {
             // User denied account access...
@@ -27,7 +28,7 @@ App = {
         else if (window.web3) {
           App.web3Provider = web3.currentProvider
           window.web3 = new Web3(web3.currentProvider)
-          // Acccounts always exposed
+          // Accounts always exposed
           web3.eth.sendTransaction({/* ... */})
         }
         // Non-dapp browsers...
@@ -39,6 +40,7 @@ App = {
       loadAccount: async () => {
         // Set the current blockchain account
         App.account = web3.eth.accounts[0]
+        console.log(App.account)
       },
 
       loadContract: async () => {
